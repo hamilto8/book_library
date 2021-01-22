@@ -95,8 +95,8 @@ function addBookToDOM(title){
                 <p class="author">${book.author}</p>
                 <p class="pages">${book.pageCount}</p>
                 <p class="read-status">${book.readStatus ? 'Read' : 'Not Read'}</p>
-                <button class="change-status" onclick="changeStatus(${idx})">Change Status</button>
-                <button class="remove" onclick="removeBook(${idx})" data-index=${idx}>Remove</button>
+                <button class="change-status" onclick="changeStatus(${idx})"><i class="far fa-edit"></i></button>
+                <button class="remove" onclick="removeBook(${idx})" data-index=${idx}><i class="far fa-trash-alt"></i></button>
                 </div>
             </div>
         `;
