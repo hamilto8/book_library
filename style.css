@@ -19,10 +19,6 @@ body, html {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-body {
-    min-height: 100%;
-}
-
 nav {
     background-color: rgb(255, 13, 13);
     border-bottom: 2px solid rgb(173, 0, 0);
@@ -126,16 +122,17 @@ nav {
     height: 100%;
     padding-top: 10vh;
     place-items: start;
-   grid-template-columns: repeat(3, 1fr);
-   z-index: 1;
+    grid-template-columns: repeat(3, 1fr);
+    z-index: 1;
 }
 
 .book {
-    background-color: rgb(255, 212, 187);
+    /* background-color: rgb(255, 212, 187); */
+    background-color: rgb(66, 38, 0);
     border: 2px solid black;
     border-radius: 4px;
     width: 200px;
-    height: 50vh;
+    height: 400px;
     margin: 20px;
     text-align: center;
     font-weight: 500;
@@ -152,10 +149,13 @@ nav {
 }
 
 .cover {
-    background-color: rgb(236, 135, 40);
+    /* background-color: rgb(236, 135, 40); */
+    background: rgb(0, 0, 0);
+    border: 2px solid rgb(196, 143, 0);
     color: #fff;
     padding: 5px;
     margin: 10px;
+    height: 285px;
 }
 
 .footer {
