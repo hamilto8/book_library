@@ -20,7 +20,7 @@ body, html {
 }
 
 nav {
-    background-color: rgb(255, 13, 13);
+    background-color: rgb(180, 0, 0);
     border-bottom: 2px solid rgb(173, 0, 0);
     color: #fff;
     font-family: 'Roboto', sans-serif;
@@ -34,18 +34,18 @@ nav {
 
 .add-book{
     float: right;
-    background-color: rgb(233, 148, 79);
+    background-color: rgb(255, 169, 136);
     font-weight: bold;
     padding: 15px;
     text-align: center;
     border-radius: 1em;
     border: 1px solid #fff;
-    color: #fff;
+    color: rgb(255, 255, 255);
     transition: background-color .1s ease;
 }
 
 .add-book:hover{
-    background-color: rgb(255, 165, 92);
+    background-color: rgb(224, 150, 127);
 }
 
 .add-book:hover{
@@ -80,11 +80,12 @@ nav {
     padding-bottom: 20px;
     font-size: 100px;
     display: block;
+    color:rgb(119, 89, 89)
 }
 
 .add-book-form > * {
     
-    color: red;
+    color: rgb(161, 86, 86);
 }
 
 #checkdiv > * { 
@@ -96,8 +97,9 @@ nav {
 }
 
 .alert-div {
-    color: red;
+    color: rgb(255, 113, 113);
     height: 10px;
+    font-weight: bold;
     width: auto;
 }
 
@@ -141,9 +143,10 @@ nav {
 }
 
 .book h3 {
-    background-color: #fff;
+    border: 2px solid rgb(196, 143, 0);
+    background: rgb(0, 0, 0);
     margin: 5px;
-    color: red;
+    color: #fff;
     font-size: 1.5em;
     border-radius: 10px;
 }
@@ -163,6 +166,7 @@ nav {
     font-size: .6em;
     grid-row-start: 2;
     grid-row-end: 3;
+    color: #fff;
 }
 
 .remove {
@@ -171,7 +175,7 @@ nav {
 }
 
 .remove:hover {
-    background-color: #ffb89d;
+    background-color: #ff9191;
     color:rgb(255, 255, 255);
 }
 
