@@ -3,49 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton-framework/1.1.1/skeleton.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <title>Libris — Modern Personal Bookshelf</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
-    <title>Bookshelf</title>
 </head>
 <body>
-    <nav>
-        <i class="fas fa-book"></i>
-        Libris
-        <div class="add-book noselect">
-            Add Book
-        </div>
-    </nav>
-    <div class="white_overlay"></div>
-    <div class="add-book-form">
-        <i class="fas fa-book"></i>
-        <div class="form-heading">
-            Add Book Information Below
-            <span class="alert-div"></span>
-        </div>
-
-        <form>
-            <input type="text"  placeholder="Book Title" name="book-title" id="book-title">
-            <input type="text" placeholder="Author Name" name="author" id="author">
-            <input type="text" placeholder="Number of Pages" name="pages" id="pages">
-            <div id="checkdiv">
-                <input type="checkbox" name="read" id="read-status">
-                <label for="read">Read?</label>
+    <div class="app-container">
+        <!-- Navigation Header -->
+        <header class="navbar">
+            <div class="navbar-brand">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-book-open-reader"></i>
+                </div>
+                <div>
+                    <h1 class="logo-title">Libris</h1>
+                    <span class="logo-subtitle">Personal Library Tracker</span>
+                </div>
             </div>
-            <button id="submitBookBtn" type="submit">Enter Book to Library</button>
-        </form>
-    </div>
-    <div id="main">
-    </div>
-    <footer class="footer">2020 Michael Hamilton</footer>
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+            <div class="navbar-actions">
+                <button id="addBookBtn" class="btn btn-primary">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Add Book</span>
+                </button>
+            </div>
+        </header>
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+        <!-- Statistics Dashboard -->
+        <section class="stats-dashboard" aria-label="Reading Statistics">
+            <div class="stat-card stat-total">
+                <div class="stat-icon"><i class="fa-solid fa-layer-group"></i></div>
+                <div class="stat-content">
+                    <span class="stat-label">Total Books</span>
+                    <span id="statTotalBooks" class="stat-value">0</span>
+                </div>
+            </div>
+            <div class="stat-card stat-read">
+                <div class="stat-icon"><i class="fa-solid fa-check-double"></i></div>
+                <div class="stat-content">
+                    <span class="stat-label">Books Read</span>
+                    <span id="statReadBooks" class="stat-value">0</span>
+                </div>
+            </div>
+            <div class="stat-card stat-pages">
+                <div class="stat-icon"><i class="fa-solid fa-file-lines"></i></div>
+                <div class="stat-content">
+                    <span class="stat-label">Pages Read</span>
+                    <span id="statTotalPages" class="stat-value">0</span>
+                </div>
+            </div>
+            <div class="stat-card stat-rating">
+                <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+                <div class="stat-content">
+                    <span class="stat-label">Average Rating</span>
+                    <div class="stat-rating-wrapper">
+                        <span id="statAvgRating" class="stat-value">0.0</span>
+                        <span class="stat-star"><i class="fa-solid fa-star"></i></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Controls & Filter Toolbar -->
+        <section class="controls-toolbar" aria-label="Library Controls">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search by title, author, or notes..." aria-label="Search library">
+                <button id="clearSearchBtn" class="clear-search-btn hidden" aria-label="Clear search">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="filter-controls">
+                <div class="select-wrapper">
+                    <i class="fa-solid fa-tag select-icon"></i>
+                    <select id="filterCategory" aria-label="Filter by category">
+                        <option value="all">All Categories</option>
+                        <option value="Fiction">Fiction</option>
+                        <option value="Non-Fiction">Non-Fiction</option>
+                        <option value="Sci-Fi & Fantasy">Sci-Fi & Fantasy</option>
+                        <option value="Tech & Coding">Tech & Coding</option>
+                        <option value="Mystery & Thriller">Mystery & Thriller</option>
+                        <option value="Biography">Biography</option>
+                        <option value="Business">Business</option>
+                        <option value="History">History</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="select-wrapper">
+                    <i class="fa-solid fa-eye select-icon"></i>
+                    <select id="filterStatus" aria-label="Filter by read status">
+                        <option value="all">All Status</option>
+                        <option value="read">Read Only</option>
+                        <option value="unread">Unread Only</option>
+                    </select>
+                </div>
+
+                <div class="select-wrapper">
+                    <i class="fa-solid fa-arrow-down-short-wide select-icon"></i>
+                    <select id="sortBy" aria-label="Sort library">
+                        <option value="recent">Recently Added</option>
+                        <option value="title-asc">Title (A-Z)</option>
+                        <option value="author-asc">Author (A-Z)</option>
+                        <option value="rating-desc">Highest Rating</option>
+                        <option value="pages-desc">Most Pages</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="backup-controls">
+                <button id="exportBtn" class="btn btn-outline" title="Export library JSON to backup">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Export</span>
+                </button>
+                <label for="importFile" class="btn btn-outline" title="Import library JSON from backup">
+                    <i class="fa-solid fa-upload"></i>
+                    <span>Import</span>
+                </label>
+                <input type="file" id="importFile" accept=".json" style="display:none">
+            </div>
+        </section>
+
+        <!-- Main Books Grid -->
+        <main id="mainGrid" class="books-grid" aria-live="polite">
+            <!-- Books will be dynamically injected here via JavaScript -->
+        </main>
+
+        <!-- Empty State (Hidden by default) -->
+        <div id="emptyState" class="empty-state hidden">
+            <div class="empty-icon">
+                <i class="fa-solid fa-books"></i>
+                <i class="fa-solid fa-bookmark"></i>
+            </div>
+            <h3 id="emptyTitle">Your Bookshelf is Empty</h3>
+            <p id="emptyMessage">Start building your personal library by adding your favorite books or reading goals!</p>
+            <button id="emptyAddBtn" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i> Add Your First Book
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>&copy; 2026 Libris Library Tracker. Designed for speed, privacy, and visual excellence.</p>
+        </footer>
+    </div>
+
+    <!-- Add / Edit Book Modal Dialog -->
+    <dialog id="bookDialog" class="modal-dialog" closedby="any" aria-labelledby="dialogTitle">
+        <div class="modal-header">
+            <div class="modal-title-wrapper">
+                <i class="fa-solid fa-book modal-title-icon"></i>
+                <h2 id="dialogTitle">Add New Book</h2>
+            </div>
+            <button type="button" id="closeDialogBtn" class="btn-close" aria-label="Close dialog">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        
+        <div id="formAlert" class="form-alert hidden" role="alert"></div>
+
+        <form id="bookForm" method="dialog" novalidate>
+            <input type="hidden" id="bookId">
+
+            <div class="form-group">
+                <label for="bookTitle">Book Title <span class="required">*</span></label>
+                <div class="input-with-icon">
+                    <i class="fa-solid fa-heading input-icon"></i>
+                    <input type="text" id="bookTitle" name="title" placeholder="e.g. Clean Code" required maxlength="100">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="bookAuthor">Author <span class="required">*</span></label>
+                <div class="input-with-icon">
+                    <i class="fa-solid fa-user-pen input-icon"></i>
+                    <input type="text" id="bookAuthor" name="author" placeholder="e.g. Robert C. Martin" required maxlength="100">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="bookPages">Page Count <span class="required">*</span></label>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-file-lines input-icon"></i>
+                        <input type="number" id="bookPages" name="pages" placeholder="e.g. 432" required min="1" max="10000">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookCategory">Category</label>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-tag input-icon"></i>
+                        <select id="bookCategory" name="category">
+                            <option value="Fiction">Fiction</option>
+                            <option value="Non-Fiction">Non-Fiction</option>
+                            <option value="Sci-Fi & Fantasy">Sci-Fi & Fantasy</option>
+                            <option value="Tech & Coding">Tech & Coding</option>
+                            <option value="Mystery & Thriller">Mystery & Thriller</option>
+                            <option value="Biography">Biography</option>
+                            <option value="Business">Business</option>
+                            <option value="History">History</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="bookRating">Rating (1-5 Stars)</label>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-star input-icon"></i>
+                        <select id="bookRating" name="rating">
+                            <option value="5">⭐⭐⭐⭐⭐ (5 - Masterpiece)</option>
+                            <option value="4">⭐⭐⭐⭐ (4 - Excellent)</option>
+                            <option value="3">⭐⭐⭐ (3 - Good)</option>
+                            <option value="2">⭐⭐ (2 - Fair)</option>
+                            <option value="1">⭐ (1 - Poor)</option>
+                            <option value="0">Unrated</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Theme Style</label>
+                    <div class="theme-selector" id="themeSelector">
+                        <label class="theme-option theme-indigo">
+                            <input type="radio" name="coverTheme" value="indigo" checked>
+                            <span class="theme-swatch"></span>
+                            <span class="theme-name">Indigo</span>
+                        </label>
+                        <label class="theme-option theme-emerald">
+                            <input type="radio" name="coverTheme" value="emerald">
+                            <span class="theme-swatch"></span>
+                            <span class="theme-name">Emerald</span>
+                        </label>
+                        <label class="theme-option theme-sunset">
+                            <input type="radio" name="coverTheme" value="sunset">
+                            <span class="theme-swatch"></span>
+                            <span class="theme-name">Sunset</span>
+                        </label>
+                        <label class="theme-option theme-cyber">
+                            <input type="radio" name="coverTheme" value="cyber">
+                            <span class="theme-swatch"></span>
+                            <span class="theme-name">Cyber</span>
+                        </label>
+                        <label class="theme-option theme-gold">
+                            <input type="radio" name="coverTheme" value="gold">
+                            <span class="theme-swatch"></span>
+                            <span class="theme-name">Gold</span>
+                        </label>
+                        <label class="theme-option theme-slate">
+                            <input type="radio" name="coverTheme" value="slate">
+                            <span class="theme-swatch"></span>
+                            <span class="theme-name">Slate</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="bookNotes">Review / Notes (Optional)</label>
+                <textarea id="bookNotes" name="notes" placeholder="Add key takeaways, favorite quotes, or thoughts..." maxlength="500" rows="3"></textarea>
+            </div>
+
+            <div class="form-group checkbox-group">
+                <label class="custom-checkbox">
+                    <input type="checkbox" id="bookRead" name="read">
+                    <span class="checkmark"><i class="fa-solid fa-check"></i></span>
+                    <span class="checkbox-label">I have finished reading this book</span>
+                </label>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="cancelDialogBtn" class="btn btn-secondary">Cancel</button>
+                <button type="submit" id="submitBookBtn" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Save Book
+                </button>
+            </div>
+        </form>
+    </dialog>
+
     <script src="app.js"></script>
 </body>
 </html>
