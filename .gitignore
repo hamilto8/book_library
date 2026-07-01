@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+jspm_packages/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build and cache directories
+dist/
+build/
+out/
+*.cache/
+.parcel-cache/
+.vite/
+.eslintcache
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE and Editor configurations
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.sublime-workspace
+*.sublime-project
+
+# OS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# AI and agent temporary files
+.gemini/
+*.tmp
+*.scratch
