@@ -62,6 +62,7 @@ Libris adheres to strict web security and modern engineering best practices:
 
 3. **Input Validation & Sanitization**:
    - Enforces strict numeric bounds checking on page counts (1–10,000) and ratings (0–5).
+   - Validates `coverTheme` and `category` fields against whitelisted sets of allowed values, rejecting any untrusted data from imports or corrupted storage.
    - Trims leading and trailing whitespace and validates required text fields before state updates occur.
 
 ---

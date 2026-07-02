@@ -17,6 +17,8 @@
     /* --- DOM Elements --- */
     const mainGrid = document.getElementById('mainGrid');
     const emptyState = document.getElementById('emptyState');
+    const emptyTitle = document.getElementById('emptyTitle');
+    const emptyMessage = document.getElementById('emptyMessage');
     const emptyAddBtn = document.getElementById('emptyAddBtn');
     const addBookBtn = document.getElementById('addBookBtn');
     const bookDialog = document.getElementById('bookDialog');
@@ -316,12 +318,14 @@
         const editBtn = document.createElement('button');
         editBtn.className = 'action-btn action-edit';
         editBtn.title = 'Edit book details';
+        editBtn.setAttribute('aria-label', 'Edit book details');
         editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
         editBtn.addEventListener('click', () => openEditDialog(book.id));
 
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'action-btn action-delete';
         deleteBtn.title = 'Remove from library';
+        deleteBtn.setAttribute('aria-label', 'Remove from library');
         deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
         deleteBtn.addEventListener('click', () => deleteBook(book.id));
 
@@ -349,12 +353,12 @@
         if (booksToRender.length === 0) {
             emptyState.classList.remove('hidden');
             if (myLibrary.length === 0) {
-                document.getElementById('emptyTitle').textContent = 'Your Bookshelf is Empty';
-                document.getElementById('emptyMessage').textContent = 'Start building your personal library by adding your favorite books or reading goals!';
+                emptyTitle.textContent = 'Your Bookshelf is Empty';
+                emptyMessage.textContent = 'Start building your personal library by adding your favorite books or reading goals!';
                 emptyAddBtn.classList.remove('hidden');
             } else {
-                document.getElementById('emptyTitle').textContent = 'No Matching Books Found';
-                document.getElementById('emptyMessage').textContent = 'Try adjusting your search query or filter criteria.';
+                emptyTitle.textContent = 'No Matching Books Found';
+                emptyMessage.textContent = 'Try adjusting your search query or filter criteria.';
                 emptyAddBtn.classList.add('hidden');
             }
         } else {
