@@ -1,12 +1,17 @@
 {
-  "name": "bookshelf",
-  "version": "1.0.0",
-  "description": "",
+  "name": "libris",
+  "version": "2.0.0",
+  "description": "A feature-complete, secure personal library tracker with glassmorphic UI, real-time statistics, and JSON backup.",
   "main": "app.js",
   "scripts": {
+    "start": "npx -y http-server . -p 8080 -c-1 -o",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": ["library", "bookshelf", "book-tracker", "vanilla-js", "glassmorphism"],
+  "author": "Michael Hamilton",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hamilto8/book_library.git"
+  }
 }

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Libris — Modern Personal Bookshelf</title>
+    <meta name="description" content="Libris is a feature-complete, secure personal library tracker with glassmorphic UI, real-time statistics, search, filtering, and JSON backup support. Built with vanilla HTML, CSS, and JavaScript.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -138,7 +139,7 @@
         <!-- Empty State (Hidden by default) -->
         <div id="emptyState" class="empty-state hidden">
             <div class="empty-icon">
-                <i class="fa-solid fa-books"></i>
+                <i class="fa-solid fa-book-open"></i>
                 <i class="fa-solid fa-bookmark"></i>
             </div>
             <h3 id="emptyTitle">Your Bookshelf is Empty</h3>
@@ -221,12 +222,12 @@
                     <div class="input-with-icon">
                         <i class="fa-solid fa-star input-icon"></i>
                         <select id="bookRating" name="rating">
-                            <option value="5">⭐⭐⭐⭐⭐ (5 - Masterpiece)</option>
-                            <option value="4">⭐⭐⭐⭐ (4 - Excellent)</option>
-                            <option value="3">⭐⭐⭐ (3 - Good)</option>
-                            <option value="2">⭐⭐ (2 - Fair)</option>
+                            <option value="0" selected>Unrated</option>
                             <option value="1">⭐ (1 - Poor)</option>
-                            <option value="0">Unrated</option>
+                            <option value="2">⭐⭐ (2 - Fair)</option>
+                            <option value="3">⭐⭐⭐ (3 - Good)</option>
+                            <option value="4">⭐⭐⭐⭐ (4 - Excellent)</option>
+                            <option value="5">⭐⭐⭐⭐⭐ (5 - Masterpiece)</option>
                         </select>
                     </div>
                 </div>

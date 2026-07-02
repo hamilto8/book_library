@@ -55,19 +55,28 @@
     const STORAGE_KEY = 'libris_library_data_v1';
     let myLibrary = [];
 
+    /* --- Validation Whitelists --- */
+    const VALID_THEMES = new Set(['indigo', 'emerald', 'sunset', 'cyber', 'gold', 'slate']);
+    const VALID_CATEGORIES = new Set([
+        'Fiction', 'Non-Fiction', 'Sci-Fi & Fantasy', 'Tech & Coding',
+        'Mystery & Thriller', 'Biography', 'Business', 'History', 'Other'
+    ]);
+    const MAX_RATING = 5;
+    const MIN_RATING = 0;
+
     /**
      * Book Class Representation
      */
     class Book {
         constructor(title, author, pages, category = 'Other', rating = 0, coverTheme = 'indigo', notes = '', read = false, id = null, dateAdded = null) {
             this.id = id || generateUUID();
-            this.title = title.trim();
-            this.author = author.trim();
-            this.pages = parseInt(pages, 10) || 0;
-            this.category = category;
-            this.rating = parseInt(rating, 10) || 0;
-            this.coverTheme = coverTheme;
-            this.notes = notes.trim();
+            this.title = String(title).trim();
+            this.author = String(author).trim();
+            this.pages = Math.max(0, parseInt(pages, 10) || 0);
+            this.category = VALID_CATEGORIES.has(category) ? category : 'Other';
+            this.rating = Math.max(MIN_RATING, Math.min(MAX_RATING, parseInt(rating, 10) || 0));
+            this.coverTheme = VALID_THEMES.has(coverTheme) ? coverTheme : 'indigo';
+            this.notes = String(notes).trim();
             this.read = Boolean(read);
             this.dateAdded = dateAdded || new Date().toISOString();
         }
@@ -218,7 +227,8 @@
 
         /* --- Cover Header --- */
         const cover = document.createElement('div');
-        cover.className = `card-cover theme-${book.coverTheme || 'indigo'}`;
+        const safeTheme = VALID_THEMES.has(book.coverTheme) ? book.coverTheme : 'indigo';
+        cover.className = 'card-cover theme-' + safeTheme;
 
         const coverTop = document.createElement('div');
         coverTop.className = 'cover-top';
@@ -231,7 +241,13 @@
         if (book.rating > 0) {
             const ratingBadge = document.createElement('span');
             ratingBadge.className = 'card-rating';
-            ratingBadge.innerHTML = `<i class="fa-solid fa-star"></i> <span>${book.rating}</span>`;
+            const starIcon = document.createElement('i');
+            starIcon.className = 'fa-solid fa-star';
+            const ratingText = document.createElement('span');
+            ratingText.textContent = String(book.rating);
+            ratingBadge.appendChild(starIcon);
+            ratingBadge.appendChild(document.createTextNode(' '));
+            ratingBadge.appendChild(ratingText);
             coverTop.appendChild(ratingBadge);
         }
 
@@ -389,13 +405,12 @@
         bookNotesInput.value = book.notes;
         bookReadInput.checked = book.read;
 
-        const themeRadio = bookForm.querySelector(`input[name="coverTheme"][value="${book.coverTheme}"]`);
-        if (themeRadio) {
-            themeRadio.checked = true;
-        } else {
-            const defaultRadio = bookForm.querySelector('input[name="coverTheme"][value="indigo"]');
-            if (defaultRadio) defaultRadio.checked = true;
-        }
+        /* Safe theme radio selection — uses validated value only */
+        const safeEditTheme = VALID_THEMES.has(book.coverTheme) ? book.coverTheme : 'indigo';
+        const themeRadios = bookForm.querySelectorAll('input[name="coverTheme"]');
+        themeRadios.forEach(radio => {
+            radio.checked = (radio.value === safeEditTheme);
+        });
 
         bookDialog.showModal();
         bookTitleInput.focus();
@@ -469,7 +484,6 @@
     function showFormAlert(message) {
         formAlert.textContent = message;
         formAlert.className = 'form-alert alert-error';
-        formAlert.classList.remove('hidden');
     }
 
     /**
