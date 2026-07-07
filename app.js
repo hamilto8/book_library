@@ -283,9 +283,10 @@
 
         const statusSpan = document.createElement('span');
         statusSpan.className = `status-badge ${book.read ? 'status-read' : 'status-unread'}`;
-        statusSpan.innerHTML = book.read 
-            ? '<i class="fa-solid fa-check"></i> Read' 
-            : '<i class="fa-regular fa-clock"></i> Unread';
+        const statusIcon = document.createElement('i');
+        statusIcon.className = book.read ? 'fa-solid fa-check' : 'fa-regular fa-clock';
+        statusSpan.appendChild(statusIcon);
+        statusSpan.appendChild(document.createTextNode(book.read ? ' Read' : ' Unread'));
 
         metaRow.appendChild(pagesSpan);
         metaRow.appendChild(statusSpan);
@@ -306,9 +307,10 @@
 
         const toggleReadBtn = document.createElement('button');
         toggleReadBtn.className = `btn-toggle-read ${book.read ? 'is-read' : ''}`;
-        toggleReadBtn.innerHTML = book.read 
-            ? '<i class="fa-solid fa-check-double"></i> Finished' 
-            : '<i class="fa-regular fa-bookmark"></i> Mark Read';
+        const toggleIcon = document.createElement('i');
+        toggleIcon.className = book.read ? 'fa-solid fa-check-double' : 'fa-regular fa-bookmark';
+        toggleReadBtn.appendChild(toggleIcon);
+        toggleReadBtn.appendChild(document.createTextNode(book.read ? ' Finished' : ' Mark Read'));
         toggleReadBtn.title = 'Toggle read status';
         toggleReadBtn.addEventListener('click', () => toggleReadStatus(book.id));
 
@@ -319,14 +321,18 @@
         editBtn.className = 'action-btn action-edit';
         editBtn.title = 'Edit book details';
         editBtn.setAttribute('aria-label', 'Edit book details');
-        editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+        const editIcon = document.createElement('i');
+        editIcon.className = 'fa-solid fa-pen';
+        editBtn.appendChild(editIcon);
         editBtn.addEventListener('click', () => openEditDialog(book.id));
 
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'action-btn action-delete';
         deleteBtn.title = 'Remove from library';
         deleteBtn.setAttribute('aria-label', 'Remove from library');
-        deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+        const deleteIcon = document.createElement('i');
+        deleteIcon.className = 'fa-solid fa-trash-can';
+        deleteBtn.appendChild(deleteIcon);
         deleteBtn.addEventListener('click', () => deleteBook(book.id));
 
         actionsDiv.appendChild(editBtn);
@@ -347,7 +353,7 @@
      * Render the Bookshelf Grid
      */
     function renderGrid() {
-        mainGrid.innerHTML = '';
+        mainGrid.replaceChildren();
         const booksToRender = getFilteredAndSortedBooks();
 
         if (booksToRender.length === 0) {

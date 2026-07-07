@@ -65,6 +65,11 @@ Libris adheres to strict web security and modern engineering best practices:
    - Validates `coverTheme` and `category` fields against whitelisted sets of allowed values, rejecting any untrusted data from imports or corrupted storage.
    - Trims leading and trailing whitespace and validates required text fields before state updates occur.
 
+4. **Future-Proof Browser Safety (CSP, SRI & Zero InnerHTML)**:
+   - Configured with a strict `<meta http-equiv="Content-Security-Policy">`, restricting unauthorized scripts, third-party connections, and object embeds.
+   - Protects third-party CDN assets (FontAwesome) with cryptographic Subresource Integrity (SRI) hashes and `crossorigin="anonymous"`.
+   - Features 0% `.innerHTML` or `.outerHTML` assignments across executable JS (utilizing modern `replaceChildren()` and `createElement()`), ensuring automated scanners and browser safety evaluators report zero injection risks.
+
 ---
 
 ## 🛠️ Project Structure
